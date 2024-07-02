@@ -144,7 +144,7 @@ class Box {
 class EndCheck {
   constructor() {
     this.position = {
-      x: 3600,
+      x: 3400,
       y: canvas.height - 157,
     };
     this.width = 64;
@@ -182,7 +182,7 @@ let platforms = [
   new Platform({ x: 800, y: 200 }),
   new Platform({ x: 1900, y: 300 }),
   new Platform({ x: 2500, y: 100 }),
-  new Platform({ x: 3500, y: canvas.height - 100 }),
+  new Platform({ x: 3300, y: canvas.height - 100 }),
   new Platform({ x: 0, y: canvas.height - 50 }),
   new Platform({ x: 290, y: canvas.height - 50 }),
   new Platform({ x: 290 * 2, y: canvas.height - 50 }),
@@ -317,24 +317,16 @@ function animate() {
 }
 
 function createVictoryWindow() {
-  const victoryWindow = document.createElement("div");
-  victoryWindow.style.position = "fixed";
-  victoryWindow.style.top = "50%";
-  victoryWindow.style.left = "50%";
-  victoryWindow.style.transform = "translate(-50%, -50%)";
-  victoryWindow.style.padding = "20px";
-  victoryWindow.style.backgroundColor = "white";
-  victoryWindow.style.border = "2px solid black";
-  victoryWindow.style.zIndex = "1000";
-  victoryWindow.innerHTML =
-    '<h1>You Win!</h1><button id="playAgain">Play Again</button>';
+  const victoryWindow = document.getElementById("victoryWindow");
+  if (isGameWon) {
+    victoryWindow.style.display = "block";
+  }
 
-  document.body.appendChild(victoryWindow);
-
-  document.getElementById("playAgain").addEventListener("click", () => {
-    victoryWindow.remove();
+  document.getElementById("playAgain").addEventListener("click", (e) => {
+    isGameWon = false;
+    victoryWindow.style.display = "none";
+    requestAnimationFrame(animate);
     init();
-    animate();
   });
 }
 animate();
@@ -365,7 +357,6 @@ addEventListener("keydown", ({ keyCode }) => {
       }
       break;
     case 40:
-      console.log(player.position.x);
       break;
   }
 });
